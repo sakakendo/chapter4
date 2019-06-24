@@ -2,9 +2,9 @@ import time
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(2, GPIO.out)
+GPIO.setup(2, GPIO.OUT)
 
-GPIO.output(25,GPIO.HIGH)
+GPIO.output(2,GPIO.HIGH)
 time.sleep(10)
 
 GPIO.cleanup()
