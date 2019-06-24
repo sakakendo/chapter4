@@ -1,23 +1,21 @@
-version: 2
+versiion: 2
 jobs:
     build:
-        working_directory: ~/meister-html/
         docker:
-            - image: circleci/node
+        - image: circleci/python:latest
+        working_directorry: ~
         steps:
             - checkout
             - run:
-                name: update-npm
-                command: 'sudo npm install -g npm@latest'
-            - restore_cache:
-                key: dependency-cache-{{ checksum "package.json" }}
+                name: setup enviroment
+                command: |
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --quiet -r requirements.txt
+
             - run:
-                name: install packages
-                command: npm install
-            - save_cache:
-                key: dependency-cache-{{ checksum "package.json" }}
-                paths:
-                    - ./node_modules
-            - run:
-                name: test
-                command: npm test
+                name: run style-check, pytest
+                command: |
+                    . venv/bin/activate
+                    flake8 src/ tests/
+                    python3 -m pytest
